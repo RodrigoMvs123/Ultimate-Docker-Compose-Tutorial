@@ -4,6 +4,8 @@ https://www.youtube.com/watch?v=SXwC9fSwct8
 
 https://raw.githubusercontent.com/RodrigoMvs123/Ultimate-Docker-Compose-Tutorial/main/README.md
 
+https://github.com/RodrigoMvs123/Ultimate-Docker-Compose-Tutorial/blame/main/README.md
+
 What is Docker Compose ?
 
 Front End / Back End / Database 
