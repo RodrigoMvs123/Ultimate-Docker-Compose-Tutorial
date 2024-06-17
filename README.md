@@ -1,4 +1,5 @@
-# Ultimate-Docker-Compose-Tutorial
+
+## Ultimate-Docker-Compose-Tutorial
 
 https://www.youtube.com/watch?v=SXwC9fSwct8 
 
@@ -6,44 +7,52 @@ https://raw.githubusercontent.com/RodrigoMvs123/Ultimate-Docker-Compose-Tutorial
 
 https://github.com/RodrigoMvs123/Ultimate-Docker-Compose-Tutorial/blame/main/README.md
 
-What is Docker Compose ?
+
+
+#### What is Docker Compose ?
 
 Front End / Back End / Database 
 
 API / Authentication Service / Database 2 
 
-Microservice App
+#### Microservice App
 An application broken down into multiple micro services 
 They must deployed and run together 
 The services need to communicate 
 
-Docker Compose
+#### Docker Compose
 Define and Run Multiple Services and Applications that belong together in one environment 
 Multi-Container Docker Applications
 
+## Start with: 
+```javascript
 Start 2 Docker Containers
 Using Docker Commands 
 Create a Docker Network 
 Start MongoDB Container
 Start Mongo Express Container 
+```
 
-Install Docker 
+## Install Docker 
 https://docs.docker.com/desktop/install/windows-install/ 
 
-Terminal Warp
+## Terminal Warp
 https://www.warp.dev/ 
 
-Docker MongoDB Container 
-
+## Docker MongoDB Container 
+```bash
 docker network create mongo-network ( Allow containers to communicate with each other and with the external world )
 docker network ls
 docker run -d \ 
+```
 
 https://hub.docker.com/_/mongo 
-
+```bash
 -p 27017:27017
+```
 
 Environment Variables 
+```
 -e MONGO_INITDB_ROOT_USERNAME=admin \ 
 -e MONGO_INITDB_ROOT_PASSWORD=supersecret \ 
 
@@ -52,16 +61,19 @@ Environment Variables
 mongo ( Specify the Image ) 
 
 docker ps
+```
 
-Docker Mongo Express
+## Docker Mongo Express
 https://hub.docker.com/_/mongo-express 
 
-Terminal Warp
+## Terminal Warp
+```bash
 docker run -d \ 
 -p 8081:8081
+```
 
 Environment Variables 
-
+```bash
 -e ME-CONFIG_MONGODB_ADMINUSERNAME=admin \ 
 -e ME_CONFIG_MONGODB_ADMINPASSWORD=supersecret \ 
 -e ME_CONFIG_MONGODB_SERVER=mongodb \
@@ -73,32 +85,46 @@ mongo-express ( Specify the Image )
 docker ps
 … Docker ID
 …
+```
 
-You can hit at localhost:8081
+You can hit at: 
+```bash
+localhost:8081
+```
 
+```bash
 docker logs ( Docker ID )
 … Mongo Express server listening at http://0.0.0.0:8081
 … basicAuth credentials are “admin:pass” … 
+```
 
 localhost:8081 
+
 Log In
+```
 Username: admin 
 Password: pass
+```
 
-Terminal Warp
+## Terminal Warp
+```bash
 docker ps
 CONTAINER ID    IMAGE      COMMAND     CREATED     STATUS    PORTS    NAME  …
 …
 …
+```
 
 Docker Compose YAML File
+```
 You use a single YAML file to configure and maintain your applications´s services 
 With a single command, you create and start all the services from your configuration
 Declarative definition
+```
 
 Map commands to Compose definition 
 
-## start mongodb
+#### start mongodb
+```bash
 docker run -d \ 
 -p 27017:27017
 -e MONGO_INITDB_ROOT_USERNAME=admin \
@@ -106,9 +132,10 @@ docker run -d \
 - -net mongo-network \
 - -name mongodb \
 mongo 
+```
 
 Compose yaml
-
+```yaml
 version: ‘3.1’             ( Version of Docker Compose ) 
 
 services: 
@@ -121,8 +148,10 @@ services:
         environment:
           - MONGO…_USERNAME=admin  
           - MONGO…_PASSWORD=secret
+```
 
-## start mongo-express
+#### start mongo-express
+```bash
 docker run -d \
 -p 8081:8081 \
 -e ME_CONFIG_MONGODB_ADMINUSERNAME=admin \
@@ -131,9 +160,10 @@ docker run -d \
 - -net mongo-network \
 - -name mongo-express \ 
 mongo-express 
+```
 
 Compose yaml 
-
+```yaml
 version: ‘3.1’
 
 services: 
@@ -147,9 +177,10 @@ services:
         environment: 
  - ME_CONFIG_MONGODB_A…
 …
+```
 
 Docker Compose Yaml with Multiple Containers 
-
+```yaml
 version: ‘3’ 
 services: 
     mongodb:
@@ -168,7 +199,9 @@ services:
             -ME_CONFIG_MONGODB_ADMINUSERNAME=admin 
             -ME_CONFIG_MONGODB_ADMINPASSWORD=password 
             - ME_CONFIG_MONGODB_SERVER=mongodb 
+```
 
+```
 “ X as Code” Concept
 Codes that defines how your services should run 
 Code can be versioned 
@@ -178,9 +211,12 @@ Network Configuration
 By default, Compose sets up a single network for your app
 Communication via Container Name
 But option to specify your own networks with the top-level “networks” key
+```
 
 Create Compose File 
 
+## Source Code
+```yaml
 Visual Studio Code
 Explorer
 Open Editors 
@@ -205,8 +241,10 @@ services:
             -ME_CONFIG_MONGODB_ADMINUSERNAME: admin 
             -ME_CONFIG_MONGODB_ADMINPASSWORD: supersecret  
             - ME_CONFIG_MONGODB_SERVER: mongodb 
+```
 
-Terminal Warp
+## Terminal Warp
+```bash
 docker ps
 CONTAINER ID    IMAGE      COMMAND     CREATED     STATUS    PORTS    NAME  …
 …
@@ -228,24 +266,33 @@ Network projects default                      Created
 Container projects-mongodb-1            Created
 Container projects-mongo-express-1  Created
 …
+```
 
-Terminal Warp
+## Terminal Warp
+```bash
 docker network ls
 NETWORK ID    NAME                   DRIVER    SCOPE
 …                        projects-default     bridge       local
 …
+```
 
-Terminal Warp
+## Terminal Warp
+```bash
 docker ps
 CONTAINER ID    IMAGE      COMMAND     CREATED     STATUS    PORTS    
 
 NAME  …
-projects-mongo-express-1                                                                                                                                    
-projects-mongodb-1 
+projects-mongo-express-1            
+     projects-mongodb-1 
+```
 
+```
 Docker Container -> Docker Container ( Initial Connection ) 
 Web App that needs to access a database ( JS )
+```
 
+## Source Code
+```yaml
 Visual Studio Code
 Explorer
 Open Editors 
@@ -272,17 +319,27 @@ services:
             - ME_CONFIG_MONGODB_SERVER: mongodb
         depends_on:
 - “mongodb”
+```
+
  
 localhost:8081
-Mongo Express
+
+#### Mongo Express
 Database Name
+```bash
 my-db
+```
+
 Create Database
+```bash
 Collection Name
 my-collection
-Create Collection
 
-Terminal Warp
+Create Collection
+```
+
+## Terminal Warp
+```bash
 docker-compose -f mongo-services.yaml up 
 …
 …
@@ -308,7 +365,9 @@ docker-compose -f mongo-services.yaml down
     Network projects-default                         Removed
 docker ps -a ( Stopped and Running Containers )
 CONTAINER ID    IMAGE      COMMAND     CREATED     STATUS    PORTS    NAME  …
+```
 
+```
 Containers are Ephemeral 
 By default, no persistence
 All data is gone, when containers are removed
@@ -316,9 +375,10 @@ Volumes are the mechanism for persisting data generated by and used by container
 
 You want to stop and re-start the container only
 Stopping containers will keep the data 
+```
 
-Terminal Wrap
-
+## Terminal Wrap
+```bash
 docker-compose -f mongo-services.yaml up -d 
 [+] Running 3/3
     Network projects-default                         Created
@@ -336,16 +396,20 @@ docker-compose -f mongo-services.yaml start
 [+] Running 2/2
     Container projects-mongodb-1               Started
     Container projects-mongo-express-1      Started 
+```
 
 Add own web application
-
+```
 To Connect
 mongo-express                     my-app ( JS )
                             mongodb
+```
 
 localhost:8081
+
 Mongo Express
 
+```
 Viewing Database: my-db
 Collections
     delete_me
@@ -353,32 +417,45 @@ Collections
 Viewing Collection: my-collection
 New Document 
 Add Document 
+```
+```object
 {
         “_id”: ObjectId(),
         “myid”: 1,
         “data”: “some dynamic data loaded from DB”
 }
 Save
-
+```
+```
 _id                       myid            data
 …                        1                  some dynamic data loaded from DB
+```
 
+## With:
+```
 JS Application
 Connects to the database
 Displays the retrieved data
 Containerize with Dockerfile
 Run it as part of the Docker Compose 
+```
 
 To Clone the Application
+```
 GitLab Repository 
 https://gitlab.com/twn-youtube/docker-compose-crash-course 
+```
 
-Terminal Wrap
+## Terminal Wrap
+```bash
 ls
 … docker-compose-crash-course    mongo-services.yaml       terraform-eks
 cd docker-compose-crash-course/
 ~/Projects/docker-compose-crash-course git:(master) 
+```
 
+## Source Code
+```html
 Visual Studio Code
 Explorer 
 Open Editors 
@@ -431,7 +508,9 @@ index.html
     </div>
 </body>
 </html>
+```
 
+```javascript
 Visual Studio Code
 Explorer 
 Open Editors 
@@ -492,7 +571,9 @@ app.get('/fetch-data', function (req, res) {
 app.listen(3000, function () {
   console.log("app listening on port 3000!");
 });
+```
 
+```dockerfile
 Visual Studio Code
 Explorer 
 Open Editors 
@@ -513,7 +594,9 @@ RUN npm install
 
 # no need for /home/app/server.js because of WORKDIR
 CMD ["node", "server.js"]
+```
 
+```json
 Visual Studio Code
 Explorer 
 Open Editors 
@@ -540,12 +623,17 @@ package.json
     "mongodb": "^4.16.0"
   }
 }
+```
 
-Terminal Wrap
+## Terminal Wrap
+```bash
 ls
 … docker-compose-crash-course    mongo-services.yaml       terraform-eks
 cp mongo-services.yaml docker-compose-crash-course/mongo-services.yaml
+```
 
+## Source Code
+```yaml
 Visual Studio Code
 Explorer
 Open Editors
@@ -580,9 +668,10 @@ services:
             - ME_CONFIG_MONGODB_SERVER: mongodb 
         depends_on:
             - "mongodb"
+```
 
-Terminal Wrap
-
+## Terminal Wrap
+```bash
 docker ps
 CONTAINER ID    IMAGE      COMMAND     CREATED     STATUS    PORTS    NAME  …
 …
@@ -632,10 +721,12 @@ docker ps -a
 …
 …
 ~/Projects/docker-compose-crash-course git:(master)+1
+```
 
 localhost:8081
-Mongo Express
 
+Mongo Express
+```
 Databases
 my-db
 Viewing Database: my-db
@@ -643,12 +734,17 @@ Collections
     my-colllections
 _id                 myid          data
 ..                    1                some dynamic data loaded from DB
+```
 
 localhost:3000
+```
 Welcome to this Super Sophisticated App
 …
 …
+```
 
+## Source Code
+```yaml
 Visual Studio Code
 Explorer
 Open Editors
@@ -683,9 +779,10 @@ services:
      - ME_CONFIG_MONGODB_SERVER=mongodb
     depends_on:
      - "mongodb"
+```
 
-Terminal Wrap
-
+## Terminal Wrap
+```bash
 ~/Projects/docker-compose-crash-course git:(master)+1
 docker-compose -f mongo-services.yaml stop
 WARN [0000] The “MONGO_ADMIN_USER” variable is not set. Defaulting to a black string.
@@ -709,13 +806,17 @@ docker-compose -f mongo-services.yaml -p projects start
 Container docker-compose-crash-course-my-app-1                    Started
 Container docker-compose-crash-course-mongodb-1                 Started
 Container docker-compose-crash-course-mongo-express-1       Started
+```
 
 localhost:3000
+
 Welcome to this Super Sophisticated App
 
+```
 Use Secrets in Docker Compose
 “Secrets” is an even better way to use secrets without having to use environment variables
-
+```
+```bash
 services: 
      myapp:
          image: myapp:latest
@@ -725,27 +826,31 @@ services:
 secrets: 
     my_secret:
         file: ./my_secret.txt
+```
 
+```
 Define the secret using the top-level secrets element
 In the service definition, reference the secret with the secrets attribute
 This permits granular access control within a service container via standard filesystem permissions 
+```
 
 Reference Image from Private Repository 
-
+```
 Docker Image Stored in Private Repository
 Build Image
 Push to Docker Repository 
-
-Docker Hub
-https://hub.docker.com/ 
-
+```
+## Docker Hub
+- https://hub.docker.com/ 
+```
 Create Private Repository
 Repository Name
 myapp
 Create
+```
 
-Terminal Wrap
-
+## Terminal Wrap
+```bash
 ~/Projects/docker-compose-crash-course git:(master)+1
 ls
 … Dockerfile      README.md      app      mongo-services.yaml
@@ -763,8 +868,10 @@ docker login
 ~/Projects/docker-compose-crash-course git:(master)+1
 docker push rodrigomvs123/myapp:1.0 
 ~/Projects/docker-compose-crash-course git:(master)+1
+```
 
-Wrap UI
+## Wrap UI
+```
 Work Drive
 Personal
 New Workflow
@@ -775,17 +882,24 @@ docker push  rodrigomvs123/my-app:{{argument_2}}
                    
                                                                 1.0
                                                                         Save workflow 
+```
+
+```
 Work Drive
 Personal
 docker-push
+```
 
-Terminal Wrap
-
+## Terminal Wrap
+```bash
 ~/Projects/docker-compose-crash-course git:(master)+1
 echo password | docker login -u rodrigomvs123 - -password-stdin
 docker build -t rodrigomvs123/my-app:1.1 .
 docker push  rodrigomvs123/my-app:1.1 
+```
 
+## Source Code
+```yaml
 Visual Studio Code
 Explorer
 Open Editors
@@ -820,9 +934,10 @@ services:
      - ME_CONFIG_MONGODB_SERVER=mongodb
     depends_on:
      - "mongodb"
+```
 
-Terminal Wrap
-
+## Terminal Wrap
+```bash
 ~/Projects/docker-compose-crash-course git:(master)+1
 docker-compose -f mongo-services.yaml -p projects stop
 [+] Running 3/3
@@ -865,8 +980,11 @@ localhost:3000
 Welcome to this Super Sophisticated App
 …
 …
+```
 
+```
 Kubernetes to the Rescue 
 Can manage large-scale apps and containers deployed across multiple nodes
 Auto-Scaling 
+```
 
